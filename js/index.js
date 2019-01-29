@@ -36,6 +36,9 @@ const siteContent = { // Object literal. This is literally an object literal.
     "copyright" : "Copyright Great Idea! 2018"
   },
 };
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////
 // BTW MAP CAN DO ANYTHING IN THE WORLD - DOESN'T MEAN YOU SHOULD //
 // To be honest, using map is pretty unnecessary with the nav, or elsewhere for that matter. 
@@ -51,39 +54,30 @@ const siteContent = { // Object literal. This is literally an object literal.
 const navLinks = document.querySelectorAll('nav a');  // Select all the 'a' within 'nav'
 const navMadeArr = Array.from(navLinks); // Had problems using map on an array-like thing. This allows me to use map.
 const navArr = navMadeArr.map((element, index) => { // map creates a new array called navArr
-  element.textContent = siteContent['nav'][`nav-item-${index}`];
-  element.setAttribute('href', `${siteContent['nav'][`nav-item-${index}`]}.html` );
-  element.style.color = '#295205';
+  element.textContent = siteContent['nav'][`nav-item-${index+1}`];
+  element.setAttribute('href', `${siteContent['nav'][`nav-item-${index+1}`]}.html` );
   return element; // Technically, this works for our purposes without the return. But it just seems like the right thing to do.
 });
 
 
-// // Added using append and function
-document.body.onload = addElement;
-function addElement () { 
-  // const a = document.createElement('a');
-  // const nav = document.querySelector('nav').append(a);
-  
-  let newDiv = document.createElement("a"); // create a new div element 
-  newDiv.setAttribute('href','https://github.com/goodidea');  // Set link
-  newDiv.textContent = 'Github';  // and give it some content 
-  
-  // add the newly created element and its content into the DOM 
-  let currentDiv = document.getElementById("div1"); 
-  document.body.insertBefore(newDiv, currentDiv); 
-  
-  
-  // console.log(nav)
-}
+// Append a child to the nav
+const newNode = document.createElement('a'); 
+newNode.appendChild(document.createTextNode('Github'));
+newNode.setAttribute('href', 'https://github.com/greatidea');
+const navAddNode = document.querySelector('nav').appendChild(newNode); 
 
 
+// Prepend a child to the nav
+const newNode2 = document.createElement('a');
+newNode2.setAttribute('href', 'index.html');
+newNode2.appendChild(document.createTextNode('Home'));
+const navAddNode2 = document.querySelector('nav').prepend(newNode2); 
 
 
-
-
-
-
-
+const navColorArr = Array.from(document.getElementsByTagName('a'));
+navColorArr.forEach(element => {
+  element.style.color = '#295205';
+});
 
 
 // // Background color just to see if I know how that works
@@ -160,8 +154,6 @@ contactAsArr[3].textContent = siteContent['contact']['email'];
 // // Footer
 const footer = document.querySelector('footer p');
 footer.textContent = siteContent['footer']['copyright'];
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////
