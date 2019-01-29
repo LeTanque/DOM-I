@@ -36,7 +36,7 @@ const siteContent = { // Object literal. This is literally an object literal.
     "copyright" : "Copyright Great Idea! 2018"
   },
 };
-
+//////////////////////////////////////////////////////////////////////////////////////
 // BTW MAP CAN DO ANYTHING IN THE WORLD - DOESN'T MEAN YOU SHOULD //
 // To be honest, using map is pretty unnecessary with the nav, or elsewhere for that matter. 
 // I first wrote this using forEach, which as it turns out would have worked fine.
@@ -48,15 +48,52 @@ const siteContent = { // Object literal. This is literally an object literal.
 // I also learned that bracket notation within another is okay.
 // All this to add .html to each link, lol!  Good practice though, this experience cleared up a 
 // lot of my syntax hangups, I believe.
-const nav = document.querySelectorAll('nav a');  // Select all the 'a' within 'nav'
-const navMadeArr = Array.from(nav); // Had problems using map on an array-like thing. This allows me to use map.
+const navLinks = document.querySelectorAll('nav a');  // Select all the 'a' within 'nav'
+const navMadeArr = Array.from(navLinks); // Had problems using map on an array-like thing. This allows me to use map.
 const navArr = navMadeArr.map((element, index) => { // map creates a new array called navArr
   element.textContent = siteContent['nav'][`nav-item-${index}`];
   element.setAttribute('href', `${siteContent['nav'][`nav-item-${index}`]}.html` );
+  element.style.color = '#295205';
   return element; // Technically, this works for our purposes without the return. But it just seems like the right thing to do.
 });
 
 
+// // Added using append and function
+document.body.onload = addElement;
+function addElement () { 
+  // const a = document.createElement('a');
+  // const nav = document.querySelector('nav').append(a);
+  
+  let newDiv = document.createElement("a"); // create a new div element 
+  newDiv.setAttribute('href','https://github.com/goodidea');  // Set link
+  newDiv.textContent = 'Github';  // and give it some content 
+  
+  // add the newly created element and its content into the DOM 
+  let currentDiv = document.getElementById("div1"); 
+  document.body.insertBefore(newDiv, currentDiv); 
+  
+  
+  // console.log(nav)
+}
+
+
+
+
+
+
+
+
+
+
+
+// // Background color just to see if I know how that works
+const html = document.getElementsByTagName('html');
+html[0].style.height = '150%';
+const body = document.getElementsByTagName('body');
+body[0].style = `background-image: linear-gradient(167deg, rgba(207, 217, 226, 0.16) 35%, rgba(42, 76, 83, 0.94));`;
+
+
+// // Things were going fine, but then I had a great idea.. no pun intended!
 const logo = document.querySelector('header #logo-img');
 logo.setAttribute('src', siteContent['nav']['img-src']);
 
@@ -85,77 +122,61 @@ ctaAsArr.forEach(element => { // This loop iterates through ctaAsArr to render t
 });
 
 
-
-
-
-
-
 // // This is section class='main-content'
+// // There is a way, I believe, to make this much more elegant. Instead, I'm left with
+// // if logic that probably would have been more efficient outside of the forEach loop.
+// // Anyways, I've spent too much time on it so I just finished it out 'more simply'.
 const mainContent = document.querySelector('.main-content');
 const mainAsArr = Array.from(mainContent.children);
-
-
 mainAsArr.forEach(element => {
-  if (element.localName === 'div') {
-
-
-  }
-
-
-
-  // if (element.localName === 'div' && element.className === 'top-content') { 
-  //   console.log('top content')
-  // } 
-  // else if (element.localName === 'img') {
-  //   console.log('image')
-  //   element.src = siteContent['main-content']['img-src'];
-  // }
-  // else if (element.localName === 'div' && element.className === 'bottom-content') {
-  //   console.log('bottom content')
-  // }
-  else {
-    console.log('Oh no! Something went wrong at the child level!');
+  if (element.className === 'top-content') { 
+    element.children[0].children[0].textContent = siteContent['main-content']['features-h4'];
+    element.children[0].children[1].textContent = siteContent['main-content']['features-content'];
+    element.children[1].children[0].textContent = siteContent['main-content']['about-h4'];
+    element.children[1].children[1].textContent = siteContent['main-content']['about-content'];
+  } else if (element.localName === 'img') { 
+    element.src = siteContent['main-content']['middle-img-src'];
+  } else if (element.className === 'bottom-content') { 
+    element.children[0].children[0].textContent = siteContent['main-content']['services-h4'];
+    element.children[0].children[1].textContent = siteContent['main-content']['services-content'];
+    element.children[1].children[0].textContent = siteContent['main-content']['product-h4'];
+    element.children[1].children[1].textContent = siteContent['main-content']['product-content'];  
+    element.children[2].children[0].textContent = siteContent['main-content']['vision-h4'];
+    element.children[2].children[1].textContent = siteContent['main-content']['vision-content'];  
   }
 });
-console.log(mainAsArr)
-
-// for (let i=0; i<element.children.length; i++) { 
 
 
+// // Section contact
+// // No more loops. But I did find turning the query into an array handy. 
+const contact = document.querySelector('.contact');
+const contactAsArr = Array.from(contact.children);
+contactAsArr[0].textContent = siteContent['contact']['contact-h4'];
+contactAsArr[1].textContent = siteContent['contact']['address'];
+contactAsArr[2].textContent = siteContent['contact']['phone'];
+contactAsArr[3].textContent = siteContent['contact']['email'];
 
 
-
-
-
-
-
-
-
-
-
-
+// // Footer
+const footer = document.querySelector('footer p');
+footer.textContent = siteContent['footer']['copyright'];
 
 
 
 
-
-
-const middleImage = document.getElementById('middle-img');
-middleImage.setAttribute('src', siteContent['main-content']['middle-img-src'])
-
-
-
-
-const featuresH4 = document.createElement('h4');
-featuresH4.textContent = (siteContent['main-content']['features-h4']);
-
-
-const contact = document.getElementsByClassName('.contact');
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////
 // // Work in progress // // Syntax snippets // //
-// // Example: Update the img src for the logo
+// BTW, you can't make an array out of getElementsByClassName, for some reason.
+// const contact = document.getElementsByClassName('contact');
+// const contactAsArr = Array.from(contact.children);
+// console.log(contact.children)
+
+
+// Alternate way to add text to a node?
+// let newContent = document.createTextNode("Hi there and greetings!"); 
+// newDiv.appendChild(newContent);  // add the text node to the newly created div
+
+
 // const logo = document.getElementById('logo-img');
 // logo.setAttribute('src', siteContent['nav']['img-src']);
 // console.log(logo);
