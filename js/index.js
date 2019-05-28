@@ -120,9 +120,9 @@ ctaAsArr.forEach(element => { // This loop iterates through ctaAsArr to render t
 // // There is a way, I believe, to make this much more elegant. Instead, I'm left with
 // // if logic that probably would have been more efficient outside of the forEach loop.
 // // Anyways, I've spent too much time on it so I just finished it out 'more simply'.
-const mainContent = document.querySelector('.main-content');
-const mainAsArr = Array.from(mainContent.children);
-mainAsArr.forEach(element => {
+const mainContent = Array.from(document.querySelector('.main-content').children);
+// const mainAsArr = Array.from(mainContent.children);
+mainContent.forEach(element => {
   if (element.className === 'top-content') { 
     element.children[0].children[0].textContent = siteContent['main-content']['features-h4'];
     element.children[0].children[1].textContent = siteContent['main-content']['features-content'];
